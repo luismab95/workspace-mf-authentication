@@ -12,12 +12,12 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "mf-autentication",
+      "prefix": "mf-authentication",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/mf-autentication",
+            "outputPath": "dist/mf-authentication",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [

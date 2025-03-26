@@ -10,8 +10,9 @@
   },
   "keywords": [
     "typescript",
-    "hexagonal architecture",
-    "ms-security"
+    "angular 19",
+    "mf-authentication",
+    "Microfrontend"
   ],
   "scripts": {
     "ng": "ng",
@@ -44,5 +45,9 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.7.2"
+  },
+  "engines": {
+    "node": ">=22.*.*",
+    "npm": ">=10.*.*"
   }
 }
