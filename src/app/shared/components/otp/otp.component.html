@@ -1,0 +1,23 @@
+<form novalidate [formGroup]="otpForm">
+    <div class="form-group">
+        <label class="col-form-label pt-0">Ingrese el código de verificación</label>
+        <div class="row">
+            <div class="col otp-input">
+                <input [formControlName]="'otp1'" class="form-control text-center" type="text" placeholder="--"
+                    maxlength="2">
+            </div>
+            <div class="col otp-input">
+                <input [formControlName]="'otp2'" class="form-control text-center" type="text" placeholder="--"
+                    maxlength="2">
+            </div>
+            <div class="col otp-input">
+                <input [formControlName]="'otp3'" class="form-control text-center" type="text" placeholder="--"
+                    maxlength="2">
+            </div>
+            <div class="col otp-input">
+                <input [formControlName]="'otp4'" class="form-control text-center" type="text" placeholder="--"
+                    maxlength="2">
+            </div>
+        </div>
+    </div>
+</form>

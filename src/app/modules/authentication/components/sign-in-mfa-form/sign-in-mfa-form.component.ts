@@ -11,11 +11,12 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { OtpComponent } from 'src/app/shared/components/otp/otp.component';
 
 @Component({
   selector: 'mf-authentication-sign-in-mfa-form',
   templateUrl: './sign-in-mfa-form.component.html',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, OtpComponent],
 })
 export class SignInMfaFormComponent implements OnInit, OnDestroy {
   message!: string;
@@ -25,7 +26,6 @@ export class SignInMfaFormComponent implements OnInit, OnDestroy {
   publicIp!: string;
   deviceInformation!: string;
   loginForm!: UntypedFormGroup;
-  otp!: string;
 
   private _router = inject(Router);
   private _authenticationService = inject(AuthenticationService);
@@ -48,44 +48,26 @@ export class SignInMfaFormComponent implements OnInit, OnDestroy {
     this.deviceInformation = `${browser}; ${os}; ${userAgent}`;
 
     this.loginForm = this._untypedFormBuilder.group({
-      otp1: [
+      otp: [
         '',
-        [Validators.required, Validators.maxLength(2), Validators.minLength(2)],
-      ],
-      otp2: [
-        '',
-        [Validators.required, Validators.maxLength(2), Validators.minLength(2)],
-      ],
-      otp3: [
-        '',
-        [Validators.required, Validators.maxLength(2), Validators.minLength(2)],
-      ],
-      otp4: [
-        '',
-        [Validators.required, Validators.maxLength(2), Validators.minLength(2)],
+        [Validators.required, Validators.maxLength(8), Validators.minLength(8)],
       ],
     });
   }
 
-  ngOnInit(): void {
-    this.loginForm.valueChanges
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((res) => {
-        if (res.otp1 && res.otp2 && res.otp3 && res.otp4) {
-          this.otp = `${res.otp1}${res.otp2}${res.otp3}${res.otp4}`;
-        } else {
-          this.otp = '';
-        }
-      });
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
     this._unsubscribeAll.complete();
   }
 
+  updateOtp(otp: string | null) {
+    this.loginForm.get('otp')!.setValue(otp);
+  }
+
   signInMfa() {
-    if (this.loginForm.invalid || this.otp === '') return;
+    if (this.loginForm.invalid) return;
 
     this.loading = true;
     this._authenticationService
@@ -93,17 +75,17 @@ export class SignInMfaFormComponent implements OnInit, OnDestroy {
         email: this.email,
         information: this.deviceInformation,
         ipAddress: this.publicIp,
-        otp: this.otp,
+        otp: this.loginForm.value.otp,
       })
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe({
         next: (response) => {
           this._storageService.saveLocalStorage(
-            'refreshToken',
+            'REFRESH_TOKEN',
             response.data.refreshToken
           );
           this._storageService.saveLocalStorage(
-            'accessToken',
+            'ACCESS_TOKEN',
             response.data.token
           );
           this.loading = false;

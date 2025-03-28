@@ -1,6 +1,6 @@
 {
   "name": "mf-authentication",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Microfrontend for authentication pages in workspace project.",
   "main": "index.js",
   "author": "luismab95@gmail.com",

@@ -13,11 +13,12 @@ import { Subject, takeUntil } from 'rxjs';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ResetPasswordI } from '../../interfaces/authentication.interface';
 import { matchPasswordValidator } from 'src/app/shared/utils/validators.utils';
+import { OtpComponent } from 'src/app/shared/components/otp/otp.component';
 
 @Component({
   selector: 'mf-authentication-forget-password-form',
   templateUrl: './forget-password-form.component.html',
-  imports: [RouterLink, FontAwesomeModule, ReactiveFormsModule],
+  imports: [RouterLink, FontAwesomeModule, ReactiveFormsModule, OtpComponent],
 })
 export class ForgetPasswordFormComponent implements OnInit, OnDestroy {
   faEyeSlash = faEyeSlash;
@@ -30,7 +31,6 @@ export class ForgetPasswordFormComponent implements OnInit, OnDestroy {
   message!: string;
   emailFormControl!: FormControl;
   resetPasswordForm!: UntypedFormGroup;
-  otp!: string;
 
   private _authenticationService = inject(AuthenticationService);
   private _untypedFormBuilder = inject(UntypedFormBuilder);
@@ -46,36 +46,12 @@ export class ForgetPasswordFormComponent implements OnInit, OnDestroy {
 
     this.resetPasswordForm = this._untypedFormBuilder.group(
       {
-        otp1: [
+        otp: [
           '',
           [
             Validators.required,
-            Validators.maxLength(2),
-            Validators.minLength(2),
-          ],
-        ],
-        otp2: [
-          '',
-          [
-            Validators.required,
-            Validators.maxLength(2),
-            Validators.minLength(2),
-          ],
-        ],
-        otp3: [
-          '',
-          [
-            Validators.required,
-            Validators.maxLength(2),
-            Validators.minLength(2),
-          ],
-        ],
-        otp4: [
-          '',
-          [
-            Validators.required,
-            Validators.maxLength(2),
-            Validators.minLength(2),
+            Validators.maxLength(8),
+            Validators.minLength(8),
           ],
         ],
         password: [
@@ -93,17 +69,7 @@ export class ForgetPasswordFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnInit(): void {
-    this.resetPasswordForm.valueChanges
-      .pipe(takeUntil(this._unsubscribeAll))
-      .subscribe((res) => {
-        if (res.otp1 && res.otp2 && res.otp3 && res.otp4) {
-          this.otp = `${res.otp1}${res.otp2}${res.otp3}${res.otp4}`;
-        } else {
-          this.otp = '';
-        }
-      });
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {
     this._unsubscribeAll.next(null);
@@ -134,6 +100,10 @@ export class ForgetPasswordFormComponent implements OnInit, OnDestroy {
       });
   }
 
+  updateOtp(otp: string | null) {
+    this.resetPasswordForm.get('otp')!.setValue(otp);
+  }
+
   resendOpt() {
     this.resetPasswordForm.reset();
     this.loadingResendOtp = true;
@@ -158,8 +128,8 @@ export class ForgetPasswordFormComponent implements OnInit, OnDestroy {
 
     const payload = {
       email: this.emailFormControl.value,
-      otp: this.otp,
-      password: this.resetPasswordForm.get('password')!.value,
+      otp: this.resetPasswordForm.value.otp,
+      password: this.resetPasswordForm.value.password,
     } as ResetPasswordI;
 
     this._authenticationService
