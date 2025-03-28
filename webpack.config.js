@@ -4,9 +4,9 @@ const {
 } = require("@angular-architects/module-federation/webpack");
 
 const moduleFederationConfig = withModuleFederationPlugin({
-  name: "mf-autentication",
+  name: "mf-authentication",
   exposes: {
-    "./Component": "./src/app/app.component.ts",
+    "./Authentication": "./src/app/modules/authentication/authentication.routes.ts",
   },
   shared: {
     ...shareAll({

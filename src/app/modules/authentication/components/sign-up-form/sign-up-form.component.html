@@ -1,0 +1,82 @@
+<div class="login-main">
+    <form class="theme-form needs-validation" novalidate [formGroup]="registerForm" (ngSubmit)="signUpLocal()">
+
+        <h4>Crea tu cuenta</h4>
+        <p>Introduce tus datos personales para crear una cuenta</p>
+        <div class="form-group">
+            <label class="col-form-label pt-0">Su nombre</label>
+            <div class="row g-2">
+                <div class="col-6">
+                    <input class="form-control" [formControlName]="'firstname'" type="text" placeholder="Nombres">
+                </div>
+                <div class="col-6">
+                    <input class="form-control" [formControlName]="'lastname'" type="text" placeholder="Apellidos">
+                </div>
+            </div>
+            @if(registerForm.get('firstname')!.hasError('required') && registerForm.get('firstname')!.touched){
+            <div class="invalid-feedback">Por favor, introduzca sus nombres.</div>
+            }
+            @if(registerForm.get('lastname')!.hasError('required') && registerForm.get('lastname')!.touched){
+            <div class="invalid-feedback">Por favor, introduzca sus apellidos.</div>
+            }
+            @if(registerForm.get('firstname')!.hasError('maxLength') && registerForm.get('firstname')!.touched){
+            <div class="invalid-feedback">Nombres solo permite un máximo de 100 caracteres.</div>
+            }
+            @if(registerForm.get('lastname')!.hasError('maxLength') && registerForm.get('lastname')!.touched){
+            <div class="invalid-feedback">Apellidos solo permite un máximo de 100 caracteres.</div>
+            }
+        </div>
+        <div class="form-group">
+            <label for="email" class="col-form-label">Correo Electrónico</label>
+            <input id="email" class="form-control" type="email" [formControlName]="'email'" placeholder="email@example.com">
+            @if(registerForm.get('email')!.hasError('email') && registerForm.get('email')!.touched){
+            <div class="invalid-feedback">Por favor, introduzca una dirección de correo electrónico válida.</div>
+            }
+            @if(registerForm.get('email')!.hasError('required') && registerForm.get('email')!.touched){
+            <div class="invalid-feedback">Por favor, introduzca una dirección de correo electrónico.</div>
+            }
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-form-label">Contraseña</label>
+            <div class="form-input position-relative">
+                <input id="password" class="form-control" type="password" [formControlName]="'password'" placeholder="*********"
+                    [type]="show ? 'text' : 'password'">
+                @if(registerForm.get('password')!.hasError('required') && registerForm.get('password')!.touched){
+                <div class="invalid-feedback">Por favor, introduzca su contraseña.</div>
+                }
+                @if(registerForm.get('password')!.hasError('pattern') && registerForm.get('password')!.touched){
+                <div class="invalid-feedback">La contraseña debe tener al menos una letra mayúscula, una letra
+                    minúscula, un número y un carácter especial y mínimo 8 caracteres.</div>
+                }
+                @if(!show){
+                <div class="show-hide" (click)="showPassword()">
+                    <fa-icon [icon]="faEye"></fa-icon>
+                </div>
+                }@else{
+                <div class="show-hide" (click)="showPassword()">
+                    <fa-icon [icon]="faEyeSlash"></fa-icon>
+                </div>
+                }
+            </div>
+        </div>
+        <div class="form-group mt-4 mb-0">
+            <button [disabled]="loading || registerForm.invalid" class="btn btn-primary btn-block w-100" type="submit">
+                @if(loading){
+                <div class="spinner-border spinner-border-sm text-light me-1" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                }
+                Crear una cuenta
+            </button>
+        </div>
+        <h6 class="text-muted mt-4 or">O puedes</h6>
+        <div class="social mt-4">
+            <div class="btn-showcase">
+                <asl-google-signin-button text="signup_with" logo_alignment="center" theme="outline" type='standard' size='large'>
+                </asl-google-signin-button>
+            </div>
+        </div>
+        <p class="mt-4 mb-0 text-center">¿Ya tienes una cuenta?<a class="ms-2"
+                [routerLink]="['/authentication/sign-in']">Iniciar sesión</a></p>
+    </form>
+</div>

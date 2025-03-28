@@ -1,0 +1,63 @@
+<div class="login-main">
+    <form class="theme-form needs-validation" novalidate [formGroup]="loginForm" (ngSubmit)="signInLocal()">
+
+        <h4>Iniciar sesión en la cuenta</h4>
+        <p>Introduzca su correo electrónico y contraseña para iniciar sesión</p>
+        <div class="form-group">
+            <label for="email" class="col-form-label">Correo Electrónico</label>
+            <input id="email" class="form-control" [formControlName]="'email'" type="email"
+                placeholder="email@example.com">
+            @if(loginForm.get('email')!.hasError('email') && loginForm.get('email')!.touched){
+            <div class="invalid-feedback">Por favor, introduzca una dirección de correo electrónico válida.</div>
+            }
+            @if(loginForm.get('email')!.hasError('required') && loginForm.get('email')!.touched){
+            <div class="invalid-feedback">Por favor, introduzca una dirección de correo electrónico.</div>
+            }
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-form-label">Contraseña </label>
+            <div class="form-input position-relative">
+                <input id="password" class="form-control" [formControlName]="'password'" type="password"
+                    [type]="show ? 'text' : 'password'" placeholder="*********">
+                @if(loginForm.get('password')!.hasError('required') && loginForm.get('password')!.touched){
+                <div class="invalid-feedback">Por favor, introduzca su contraseña.</div>
+                }
+                @if(!show){
+                <div class="show-hide" (click)="showPassword()">
+                    <fa-icon [icon]="faEye"></fa-icon>
+                </div>
+                }@else{
+                <div class="show-hide" (click)="showPassword()">
+                    <fa-icon [icon]="faEyeSlash"></fa-icon>
+                </div>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <a class="link" [routerLink]="['/authentication/forget-password']">¿Has olvidado tu contraseña?</a>
+        </div>
+
+        <div class="form-group mb-0">
+            <div class="text-end mt-3">
+                <button [disabled]="loading || loginForm.invalid" class="btn btn-primary btn-block w-100" type="submit">
+                    @if(loading){
+                    <div class="spinner-border spinner-border-sm text-light me-1" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    }
+                    Iniciar sesión
+                </button>
+            </div>
+        </div>
+        <h6 class="text-muted mt-4 or">O puedes</h6>
+        <div class="social mt-4">
+            <div class="btn-showcase">
+                <asl-google-signin-button logo_alignment="center" theme="outline" type='standard' size='large'>
+                </asl-google-signin-button>
+            </div>
+        </div>
+        <p class="mt-4 mb-0 text-center">¿No tienes cuenta?<a class="ms-2"
+                [routerLink]="['/authentication/sign-up']">Crear una cuenta</a></p>
+    </form>
+</div>
