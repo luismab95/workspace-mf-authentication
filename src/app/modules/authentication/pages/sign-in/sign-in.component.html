@@ -5,8 +5,10 @@
                 <div>
                     <div>
                         <a class="logo text-start">
-                            <img class="img-fluid for-dark" src="assets/images/logo/logo.png" alt="looginpage">
-                            <img class="img-fluid for-light" src="assets/images/logo/logo_dark.png" alt="looginpage">
+                            <img class="img-fluid for-dark" [src]="apiUrlStatics + '/images/logo/logo.png'"
+                                alt="looginpage">
+                            <img class="img-fluid for-light" [src]="apiUrlStatics + '/images/logo/logo_dark.png'"
+                                alt="looginpage">
                         </a>
                     </div>
                     <mf-authentication-sign-in-form></mf-authentication-sign-in-form>

@@ -37,7 +37,6 @@
     "@fortawesome/angular-fontawesome": "^1.0.0",
     "@fortawesome/free-regular-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
-    "bootstrap": "^5.3.3",
     "dotenv": "^16.4.7",
     "encrypt-storage": "^2.14.6",
     "ngx-device-detector": "^9.0.0",
