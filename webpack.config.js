@@ -6,7 +6,8 @@ const {
 const moduleFederationConfig = withModuleFederationPlugin({
   name: "mf-authentication",
   exposes: {
-    "./Authentication": "./src/app/modules/authentication/authentication.routes.ts",
+    "./AuthenticationModule":
+      "./src/app/modules/authentication/authentication.module.ts",
   },
   shared: {
     ...shareAll({

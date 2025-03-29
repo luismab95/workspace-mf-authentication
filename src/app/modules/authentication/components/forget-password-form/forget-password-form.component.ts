@@ -14,6 +14,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { ResetPasswordI } from '../../interfaces/authentication.interface';
 import { matchPasswordValidator } from 'src/app/shared/utils/validators.utils';
 import { OtpComponent } from 'src/app/shared/components/otp/otp.component';
+import Pubsub from 'pubsub-js';
 
 @Component({
   selector: 'mf-authentication-forget-password-form',
@@ -136,8 +137,9 @@ export class ForgetPasswordFormComponent implements OnInit, OnDestroy {
       .resetPassword(payload)
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe({
-        complete: () => {
+        next: (response) => {
           this.loading = false;
+          Pubsub.publish('success', response.data);
           this._router.navigateByUrl('/authentication/sign-in');
         },
         error: (_error) => {

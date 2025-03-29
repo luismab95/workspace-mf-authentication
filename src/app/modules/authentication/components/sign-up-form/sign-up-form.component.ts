@@ -15,6 +15,7 @@ import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthenticationService } from '../../services/authentication.service';
 import { UserI } from '../../interfaces/authentication.interface';
+import Pubsub from 'pubsub-js';
 
 @Component({
   selector: 'mf-authentication-sign-up-form',
@@ -98,8 +99,9 @@ export class SignUpFormComponent implements OnInit, OnDestroy {
         error: (_error) => {
           this.loading = false;
         },
-        complete: () => {
+        next: (response) => {
           this.loading = false;
+          Pubsub.publish('success', response.data);
           this._router.navigateByUrl('/authentication/sign-in');
         },
       });

@@ -1,6 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { Subject, take, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { AuthenticationService } from '../../services/authentication.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { publicIp } from 'public-ip';
@@ -12,6 +12,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { OtpComponent } from 'src/app/shared/components/otp/otp.component';
+import { faTruckField } from '@fortawesome/free-solid-svg-icons';
+import Pubsub from 'pubsub-js';
 
 @Component({
   selector: 'mf-authentication-sign-in-mfa-form',
@@ -89,7 +91,7 @@ export class SignInMfaFormComponent implements OnInit, OnDestroy {
             response.data.token
           );
           this.loading = false;
-          this._router.navigateByUrl('/admin');
+          Pubsub.publish('login-redirect', faTruckField);
         },
         error: (_error) => {
           this.loading = false;
